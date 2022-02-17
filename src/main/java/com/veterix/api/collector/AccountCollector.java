@@ -3,6 +3,7 @@ package com.veterix.api.collector;
 import com.eventstore.dbclient.EventStoreDBClient;
 import com.eventstore.dbclient.RecordedEvent;
 import com.eventstore.dbclient.ResolvedEvent;
+import com.eventstore.dbclient.StreamNotFoundException;
 import com.veterix.api.commands.account.AccountCommand;
 import com.veterix.api.commands.account.AccountDeletedCommand;
 import com.veterix.api.commands.account.AccountUpdateCommand;
@@ -16,18 +17,24 @@ import com.veterix.api.model.Account;
 import com.veterix.api.util.EventUtility;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-@AllArgsConstructor
 @Component
-public class AccountCollector {
+@Slf4j
+public class AccountCollector extends BaseCollector<AccountCommand>{
 
-    private final EventStoreDBClient client;
+    @Autowired
+    public AccountCollector(EventStoreDBClient client) {
+        super(client);
+    }
 
-    public Flux<AccountCommand> getAccountCommands() {
-        String streamName = new CreateAccountCommand().getStreamName(); //create an instance of any account command to get the stream name
-        return Flux.from(client.readStreamReactive(streamName)).map(this::parseEvent);
+    @Override
+    String getStreamName() {
+        return new CreateAccountCommand().getStreamName(); //create an instance of any account command to get the stream name
     }
 
     @SneakyThrows

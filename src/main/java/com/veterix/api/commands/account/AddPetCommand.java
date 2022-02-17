@@ -2,6 +2,7 @@ package com.veterix.api.commands.account;
 
 import com.veterix.api.model.Account;
 import com.veterix.api.model.Pet;
+import com.veterix.api.model.PetSpecies;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Data
 public final class AddPetCommand extends AccountCommand{
     private String name;
-    private String petType;
+    private PetSpecies species;
     private UUID petId;
     private String breed;
     @Override
@@ -23,7 +24,7 @@ public final class AddPetCommand extends AccountCommand{
         if(account.pets()!=null){
             pets.addAll(account.pets());
         }
-        Pet pet = new Pet(petId,name,petType,breed,this.getEventTimestamp());
+        Pet pet = new Pet(petId,name,species,breed,this.getEventTimestamp());
         pets.add(pet);
         Account finalAccount = new Account(
                 account.id(),

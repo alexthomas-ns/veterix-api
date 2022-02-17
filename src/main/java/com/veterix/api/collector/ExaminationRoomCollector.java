@@ -11,18 +11,24 @@ import com.veterix.api.commands.room.ExaminationRoomUpdateCommand;
 import com.veterix.api.util.EventUtility;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
-@AllArgsConstructor
+
 @Component
-public class ExaminationRoomCollector {
+public class ExaminationRoomCollector extends BaseCollector<ExaminationRoomCommand>{
 
-    private final EventStoreDBClient client;
 
-    public Flux<ExaminationRoomCommand> getExaminationRoomCommands() {
-        String streamName = new ExaminationRoomCreatedCommand().getStreamName(); //create an instance of any examination room command to get the stream name
-        return Flux.from(client.readStreamReactive(streamName)).map(this::parseEvent);
+    @Autowired
+    public ExaminationRoomCollector(EventStoreDBClient client) {
+        super(client);
+    }
+
+    @Override
+    String getStreamName() {
+        return new ExaminationRoomCreatedCommand().getStreamName(); //create an instance of any examination room command to get the stream name
     }
 
     @SneakyThrows

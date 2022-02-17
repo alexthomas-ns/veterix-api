@@ -74,7 +74,7 @@ public class RoomController {
 
     public Flux<ExaminationRoom> getExaminationRooms(){
         ExaminationRoomContext context = new ExaminationRoomContext();
-        return collector.getExaminationRoomCommands()
+        return collector.getCommands()
                 .transform(context::acceptCommand)
                 .flatMapIterable(Map::values);
     }

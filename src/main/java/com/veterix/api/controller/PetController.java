@@ -39,7 +39,7 @@ public class PetController {
         command.setPetId(UUID.randomUUID());
         command.setEventTimestamp(ZonedDateTime.now());
         command.setName(createPetRequest.name());
-        command.setPetType(createPetRequest.type());
+        command.setSpecies(createPetRequest.species());
         command.setBreed(createPetRequest.breed());
         EventData eventData = EventUtility.buildEventData(command);
         return Mono.fromFuture(client.appendToStream(command.getStreamName(),eventData)).then(accountController.getAccount(accountId));

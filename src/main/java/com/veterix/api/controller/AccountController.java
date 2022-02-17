@@ -76,7 +76,7 @@ public class AccountController {
 
     public Flux<Account> getAccounts(){
         AccountContext context = new AccountContext();
-        return collector.getAccountCommands()
+        return collector.getCommands()
                 .transform(context::acceptCommand)
                 .flatMapIterable(Map::values);
     }

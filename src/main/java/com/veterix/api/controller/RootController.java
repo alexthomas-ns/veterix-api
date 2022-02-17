@@ -19,10 +19,13 @@ public class RootController {
     public Mono<EntityModel<Object>> getRoot(){
         WebFluxLinkBuilder.WebFluxBuilder roomBuilder = linkTo(methodOn(RoomController.class).getExaminationRooms());
         Mono<Link> roomsLink = roomBuilder.withRel("examination-rooms").toMono();
-        Mono<Link> roomLink = roomsLink.map(link -> Link.of(link.getHref() + "/{roomId}").withRel("room"));
         Mono<Link> accountsLink = linkTo(methodOn(AccountController.class).getAccounts()).withRel("accounts").toMono();
+        Mono<Link> typesLink = linkTo(methodOn(TypesController.class).getTypes()).withRel("types").toMono();
+
+        Mono<Link> roomLink = roomsLink.map(link -> Link.of(link.getHref() + "/{roomId}").withRel("room"));
         Mono<Link> accountLink = accountsLink.map(link -> Link.of(link.getHref() + "/{accountId}").withRel("account"));
-        return Flux.concat(roomLink,roomsLink,accountsLink,accountLink).collectList()
+
+        return Flux.concat(roomLink,roomsLink,accountsLink,accountLink,typesLink).collectList()
                 .map(links->EntityModel.of(new Object(),links));
 
     }

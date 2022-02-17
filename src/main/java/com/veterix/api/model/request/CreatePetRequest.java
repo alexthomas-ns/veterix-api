@@ -1,4 +1,6 @@
 package com.veterix.api.model.request;
 
-public record CreatePetRequest(String name,String type,String breed) {
+import com.veterix.api.model.PetSpecies;
+
+public record CreatePetRequest(String name, PetSpecies species, String breed, int age) {
 }
