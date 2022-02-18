@@ -18,13 +18,14 @@ public final class AddPetCommand extends AccountCommand{
     private PetSpecies species;
     private UUID petId;
     private String breed;
+    private int age;
     @Override
     public Optional<Account> applyCommand(Account account) {
         List<Pet> pets = new ArrayList<>();
         if(account.pets()!=null){
             pets.addAll(account.pets());
         }
-        Pet pet = new Pet(petId,name,species,breed,this.getEventTimestamp());
+        Pet pet = new Pet(petId,name,species,breed,age,this.getEventTimestamp());
         pets.add(pet);
         Account finalAccount = new Account(
                 account.id(),
