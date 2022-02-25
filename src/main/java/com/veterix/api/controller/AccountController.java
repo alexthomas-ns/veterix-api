@@ -88,9 +88,10 @@ public class AccountController {
         Mono<Link> allLink = linkTo(accountController.getExaminationRoomResponse())
                 .withRel("all").toMono();
         PetController petController = methodOn(PetController.class);
-        Mono<Link> petLink = linkTo(petController.getPets(accountId)).withRel("pets")
+        Mono<Link> petsLink = linkTo(petController.getPets(accountId)).withRel("pets")
                 .andAffordance(petController.createPet(accountId,null))
                 .toMono();
+        Mono<Link> petLink =  petsLink.map(link->Link.of(link.getHref()+"/{petId}").withRel("pet"));
         return getAccounts()
                 .filter(r->r.id().equals(accountId))
                 .next()
@@ -101,6 +102,7 @@ public class AccountController {
                                 .andAffordance(accountController.updateAccount(accountId,null))
                                 .toMono().map(link -> EntityModel.of(e,link))
                                 .zipWith(allLink, RepresentationModel::add)
+                                .zipWith(petsLink, RepresentationModel::add)
                                 .zipWith(petLink, RepresentationModel::add)
 
                 );

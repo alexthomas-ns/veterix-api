@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Data
-public sealed abstract class AccountCommand implements BaseCommand permits AccountDeletedCommand, AccountUpdateCommand, AddPetCommand, CreateAccountCommand {
+public sealed abstract class AccountCommand implements BaseCommand permits AccountDeletedCommand, AccountUpdateCommand, AddPetCommand, CreateAccountCommand, DeletePetCommand {
 
     private UUID id;
     private ZonedDateTime eventTimestamp;

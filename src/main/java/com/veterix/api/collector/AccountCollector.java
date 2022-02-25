@@ -9,6 +9,7 @@ import com.veterix.api.commands.account.AccountDeletedCommand;
 import com.veterix.api.commands.account.AccountUpdateCommand;
 import com.veterix.api.commands.account.AddPetCommand;
 import com.veterix.api.commands.account.CreateAccountCommand;
+import com.veterix.api.commands.account.DeletePetCommand;
 import com.veterix.api.commands.room.ExaminationRoomCommand;
 import com.veterix.api.commands.room.ExaminationRoomCreatedCommand;
 import com.veterix.api.commands.room.ExaminationRoomDeletedCommand;
@@ -46,6 +47,7 @@ public class AccountCollector extends BaseCollector<AccountCommand>{
             case "add-pet" -> EventUtility.parseEventData(originalEvent, AddPetCommand.class);
             case "update-account"-> EventUtility.parseEventData(originalEvent, AccountUpdateCommand.class);
             case "delete-account" -> EventUtility.parseEventData(originalEvent, AccountDeletedCommand.class);
+            case "delete-pet" -> EventUtility.parseEventData(originalEvent, DeletePetCommand.class);
             default -> throw new RuntimeException("Unknown event type:  " + eventType);
         };
     }
