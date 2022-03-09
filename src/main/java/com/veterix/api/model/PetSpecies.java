@@ -11,7 +11,8 @@ import java.util.Map;
 @AllArgsConstructor
 @Getter
 public enum PetSpecies {
-    DOG("Dog"),CAT("Cat");
+    DOG("Dog"),CAT("Cat"),OCTOPUS("Octopus"),
+    DRAGON("Dragon"),MONKEY("Monkey"), DINOSAUR("Dinosaur");
 
     private final String name;
 
