@@ -21,11 +21,14 @@ public class RootController {
         Mono<Link> roomsLink = roomBuilder.withRel("examination-rooms").toMono();
         Mono<Link> accountsLink = linkTo(methodOn(AccountController.class).getAccounts()).withRel("accounts").toMono();
         Mono<Link> typesLink = linkTo(methodOn(TypesController.class).getTypes()).withRel("types").toMono();
+        Mono<Link> appointmentsLink =linkTo(methodOn(AppointmentController.class).getAppointments()).withRel("appointments").toMono();
 
-        Mono<Link> roomLink = roomsLink.map(link -> Link.of(link.getHref() + "/{roomId}").withRel("room"));
+                Mono<Link> roomLink = roomsLink.map(link -> Link.of(link.getHref() + "/{roomId}").withRel("room"));
         Mono<Link> accountLink = accountsLink.map(link -> Link.of(link.getHref() + "/{accountId}").withRel("account"));
+        Mono<Link> appointmentAvailabilityLink =linkTo(methodOn(AppointmentController.class).getAvailabilityWindows(null,null)).withRel("appointment-availability").toMono();
 
-        return Flux.concat(roomLink,roomsLink,accountsLink,accountLink,typesLink).collectList()
+
+        return Flux.concat(roomLink,roomsLink,accountsLink,accountLink,typesLink,appointmentsLink,appointmentAvailabilityLink).collectList()
                 .map(links->EntityModel.of(new Object(),links));
 
     }
